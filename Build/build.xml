@@ -42,7 +42,7 @@
  	</java>
   </target>
   <target name="deploy"> 
-	<echo message="Deploying barfile in ${Env}" />
-	
+	<echo message="Deploying barfile in ${environment}" />
   </target>
+  
 </project>
