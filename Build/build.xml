@@ -46,7 +46,20 @@
  	</java>
   </target>
   
-  <target name="deploy"> 
+  <macrodef name="mdeploy">
+	<attribute name="inode" default="${iib.broker}" />
+	<attribute name="hostname" default="localhost" />
+	<attribute name="port" default="4417" />
+	<attribute name="execgroup" default="${iib.server}"/>
+	<attribute name="barfile" default="${workspace.dir}/Bars/${bar.name}" />
+	<attribute name="timeoutsecs" default="180" />
+	<sequential>
+	<exec executable="cmd.exe" failonerror="true">
+	<arg line="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin' @{inode} @{hostname} @{port} @{execgroup} @{barfile} @{timeoutsecs}" />
+	</exec>
+	</sequential>
+  </macrodef>
+  <!--<target name="deploy"> 
 	<echo message="Deploying barfile in ${environment}" />
 	<exec executable="${workspace.dir}/Build/deploycmd.bat">
 		<arg value="${iib.deploy}" />
@@ -55,8 +68,8 @@
 		<arg value="4417" />
 		<arg value="${iib.server}" />
 		<arg value="${workspace.dir}/Bars/${bar.name}" />
-		<arg value="180" />
+		<arg value="180" />			
 	</exec>
-  </target>
+  </target>-->
   
 </project>
