@@ -10,7 +10,7 @@
 	<property name="application.name" value="APP_TEST" />-->
     <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
 	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/${environment}/toUpperCase(${environment}).properties -r" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/${environment}/lower(${environment}).properties -r" />
     <antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
