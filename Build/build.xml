@@ -9,17 +9,16 @@
     <antcall target="build" />
   </target>
   <target name="build">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${bar.location} -a ${application.name} -deployAsSource" />
-     <echo message="Bar file Output Location: ${bar.location}" />
+     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b @${workspace.dir}/Bars/BAR_APP_TEST.bar -a ${application.name} -deployAsSource" />
      <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
 		<arg value="${workspace.dir}" />
 		<arg value="-b" />
-		<arg value="${workspace.dir}/BAR_APP_TEST.bar" />
+		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
 		<arg value="-a" />
         <arg value="${application.name}" /> 
 		<arg value="-deployAsSource" />
      </exec>
-	 <echo message="Bar file created sucessfully" />
+	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
   </target>
 </project>
