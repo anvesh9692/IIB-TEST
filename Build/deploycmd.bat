@@ -11,8 +11,10 @@
 
 ::
 :: %2 = integration node
-:: %3 = intergration server (execution group)
-:: %4 = bar file
-:: %5 = timeout Secs
-mqsilist
-mqsideploy %2 -e %3 -a %4 -w %5 
+:: %3 = hostname
+:: %4 = port
+:: %5 = intergration server (execution group)
+:: %6 = bar file
+:: %7 = timeout Secs
+
+mqsideploy %2 -i %3 -p %4 -e %5 -a %6 -w %7
