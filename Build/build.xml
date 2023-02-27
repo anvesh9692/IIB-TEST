@@ -2,12 +2,15 @@
 <project name="project" default="run">
   <target name="run" description="">
     <property name="iib.createbar" value="C:/Program Files/IBM/IIB/10.0.0.3/tools" />
-	<property name="iib.applybaroverride" value="C:/Program Files/IBM/IIB/10.0.0.3/server/bin" />
+	<property name="iib.home" value="C:/Program Files/IBM/IIB/10.0.0.3" />
     <!--<property name="bars.basedir" value="C:/Users/Admin/Archive" />
     <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />-->
     <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
 	<property name="application.name" value="APP_TEST" />
+	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/UAT/uat.properties -r" />
     <antcall target="build" />
+	<antcall target="override" />
   </target>
   <target name="build">
      <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b @${workspace.dir}/Bars/BAR_APP_TEST.bar -a ${application.name} -deployAsSource" />
@@ -21,17 +24,38 @@
 		<arg value="-deployAsSource" />
      </exec>
 	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+  </target>
+  <target name="override" depends="compile" description="Overrides properties of the built BAR file using the mqsiapplybaroverride command.The new property values are read from an overrides file." unless="${deploy.only}">
+	<echo message="OVERRIDE target starting ...${line.separator}" />
+	<echo message="Command line: java -cp ... ${mqsi.applybaroverride}  ${mqsi.applybaroverride.parameters}${line.separator}" />
+	<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
+		<arg line="${mqsi.applybaroverride.parameters} -runtime" />
+		<classpath>
+   			<fileset dir="${iib.home}/server/classes">
+    				<include name="*.jar"/>
+   			</fileset>
+			<fileset dir="${iib.home}/common/classes">
+				<include name="*.jar"/>
+			</fileset>
+  		</classpath>
+ 	</java>
+  </target>
 	 
-	 <echo message="Applying bar overrides" />
+	 <!--<echo message="Applying bar overrides" />
 	 <exec executable="${iib.applybaroverride}/mqsiprofile.cmd">
 		<arg value="&amp;"/>
-		<arg value="mqsiapplybaroverride" />
+		<arg value="CALL mqsiapplybaroverride" />
 		<arg value="-b" />
 		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
 		<arg value="-p" />
 		<arg value="${workspace.dir}/Properties/UAT/uat.properties" />
 		<arg value="-r" />
-	 </exec>
+	 </exec>-->
 	 
-  </target>
+  
+  <!--<target name="mvn">
+    <exec dir="${iib.applybaroverride}/mqsiprofile" executable="cmd">
+        <arg line="/c mvn clean install" />
+    </exec>
+  </target>-->
 </project>
