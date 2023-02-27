@@ -54,14 +54,19 @@
 	<attribute name="barfile" default="${workspace.dir}/Bars/${bar.name}" />
 	<attribute name="timeoutsecs" default="180" />-->
 	
-	<exec executable="cmd.exe" failonerror="true">
+	<exec executable="${iib.deploybar}/IBM App Connect Enterprise Console 12.0.5.0" failonerror="true">
 	<!--<arg line="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin' @{inode} @{hostname} @{port} @{execgroup} @{barfile} @{timeoutsecs}" />-->
-		<arg value="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin'" />
+		<arg value="mqsideploy" />
 		<arg value="${iib.broker}" />
+		<!--<arg value="-i" />
 		<arg value="localhost" />
-		<arg value="4417" />
+		<arg value="-p" />
+		<arg value="4417" />-->
+		<arg value="-e" />
 		<arg value="${iib.server}" />
+		<arg value="-a" />
 		<arg value="${workspace.dir}/Bars/${bar.name}" />
+		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
 	
