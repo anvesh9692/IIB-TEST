@@ -20,5 +20,13 @@
 		<arg value="-deployAsSource" />
      </exec>
 	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+	 
+	 <echo message="Applying bar overrides" />
+	 <exec executable="baroverride.bat">
+		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+		<arg value="${workspace.dir}/Properties/UAT/uat.properties" /> 
+	 </exec>
+	 
+	 
   </target>
 </project>
