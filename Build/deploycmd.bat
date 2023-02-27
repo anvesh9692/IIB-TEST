@@ -7,6 +7,10 @@
 
 @call "mqsiprofile.cmd" >NUL 2>NUL
 
+:: Get back to the project directory
+
+@popd
+
 :: Now mqsideploy can be called.
 
 ::
