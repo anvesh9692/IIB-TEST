@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <project name="project" default="run">
   <target name="run" description="">
+    <property file="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST/Build/build.properties"/>
     <property name="iib.createbar" value="C:/Program Files/IBM/ACE/12.0.5.0/tools" />
 	<property name="iib.home" value="C:/Program Files/IBM/ACE/12.0.5.0" />
     <!--<property name="bars.basedir" value="C:/Users/Admin/Archive" />
