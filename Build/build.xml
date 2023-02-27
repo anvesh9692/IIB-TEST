@@ -49,6 +49,7 @@
   <target name="deploy"> 
 	<echo message="Deploying barfile in ${environment}" />
 	<exec executable="${workspace.dir}/Build/deploycmd.bat">
+		<arg value="${iib.deploy}" />
 		<arg value="${iib.broker}" />
 		<arg value="${iib.server}" />
 		<arg value="${workspace.dir}/Bars/${bar.name}" />
