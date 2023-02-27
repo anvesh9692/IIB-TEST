@@ -7,10 +7,6 @@
 
 @call "mqsiprofile.cmd" >NUL 2>NUL
 
-:: Get back to the project directory
-
-@popd
-
 :: Now mqsideploy can be called.
 
 ::
@@ -19,4 +15,4 @@
 :: %4 = bar file
 :: %5 = timeout Secs
 
-mqsideploy %2 -e %3 -a %4 -w %5 
+call mqsideploy.exe %2 -e %3 -a %4 -w %5 
