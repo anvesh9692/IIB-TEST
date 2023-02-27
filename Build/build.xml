@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<project name="project" default="run">
+  <target name="run" description="">
+    <property name="iib.createbar" value="C:/Program Files/IBM/IIB/10.0.0.3/tools" />
+    <!--<property name="bars.basedir" value="C:/Users/Admin/Archive" />
+    <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />-->
+    <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
+	<property name="application.name" value="APP_TEST" />
+    <antcall target="build" />
+  </target>
+  <target name="build">
+     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${bar.location} -a ${application.name} -deployAsSource" />
+     <echo message="Bar file Output Location: ${bar.location}" />
+     <exec executable="${iib.createbar}/mqsicreatebar">
+       	<arg value="-data" />
+		<arg value="${workspace.dir}" />
+		<arg value="-b" />
+		<arg value="${workspace.dir}/BAR_APP_TEST.bar" />
+		<arg value="-a" />
+        <arg value="${application.name}" /> 
+		<arg value="-deployAsSource" />
+     </exec>
+	 <echo message="Bar file created sucessfully" />
+  </target>
+</project>
