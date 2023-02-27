@@ -25,7 +25,7 @@
 	 <echo message="Applying bar overrides" />
 	 <exec executable="${iib.applybaroverride}/mqsiprofile.cmd">
 		<arg value="&amp;"/>
-		<arg value="mqsiapplybaroverride.bat" />
+		<arg value="mqsiapplybaroverride" />
 		<arg value="-b" />
 		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
 		<arg value="-p" />
