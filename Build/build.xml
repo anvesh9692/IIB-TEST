@@ -10,7 +10,7 @@
 	<property name="application.name" value="APP_TEST" />-->
     <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
 	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/UAT/uat.properties -r" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/${environment}/uat.properties -r" />
     <antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
@@ -48,14 +48,11 @@
   
   <target name="deploy"> 
 	<echo message="Deploying barfile in ${environment}" />
-	<exec executable="${iib.deploy}/mqsideploy">
-	<arg value="${iib.broker}" />
-	<arg value="-e" />
-	<arg value="${iib.server}" />
-	<arg value="-a" />
-	<arg value="${workspace.dir}/Bars/${bar.name}" />
-	<arg value="-w" />
-    <arg value="180" />
+	<exec executable="${workspace.dir}/Build/deploycmd.bat">
+		<arg value="${iib.broker}" />
+		<arg value="${iib.server}" />
+		<arg value="${workspace.dir}/Bars/${bar.name}" />
+		<arg value="180" />
 	</exec>
   </target>
   
