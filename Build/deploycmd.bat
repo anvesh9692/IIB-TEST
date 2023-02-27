@@ -14,5 +14,5 @@
 :: %3 = intergration server (execution group)
 :: %4 = bar file
 :: %5 = timeout Secs
-
-call mqsideploy.exe %2 -e %3 -a %4 -w %5 
+mqsilist
+mqsideploy %2 -e %3 -a %4 -w %5 
