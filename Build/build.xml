@@ -23,11 +23,15 @@
 	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
 	 
 	 <echo message="Applying bar overrides" />
-	 <exec executable="${workspace.dir}/Build/baroverride.bat">
+	 <exec executable="${workspace.dir}/Build/mqsiprofile.cmd" spawn="false" logerror="true" failonerror="false">
+		<arg value="&amp;"/>
+		<arg value="mqsiapplybaroverride.bat" />
+		<arg value="-b" />
 		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+		<arg value="-p" />
 		<arg value="${workspace.dir}/Properties/UAT/uat.properties" />
+		<arg value="-r" />
 	 </exec>
-	 
 	 
   </target>
 </project>
