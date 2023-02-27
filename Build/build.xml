@@ -2,6 +2,7 @@
 <project name="project" default="run">
   <target name="run" description="">
     <property name="iib.createbar" value="C:/Program Files/IBM/IIB/10.0.0.3/tools" />
+	<property name="iib.applybaroverride" value="C:/Program Files/IBM/IIB/10.0.0.3/server/bin" />
     <!--<property name="bars.basedir" value="C:/Users/Admin/Archive" />
     <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />-->
     <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
@@ -22,9 +23,9 @@
 	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
 	 
 	 <echo message="Applying bar overrides" />
-	 <exec executable="baroverride.bat">
+	 <exec executable="${workspace.dir}/Build/baroverride.bat">
 		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
-		<arg value="${workspace.dir}/Properties/UAT/uat.properties" /> 
+		<arg value="${workspace.dir}/Properties/UAT/uat.properties" />
 	 </exec>
 	 
 	 
