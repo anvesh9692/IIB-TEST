@@ -1,32 +1,35 @@
 <?xml version="1.0"?>
 <project name="project" default="run">
   <target name="run" description="">
+  <echo message="Loading properties" />
     <property file="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST/Build/build.properties"/>
-    <property name="iib.createbar" value="C:/Program Files/IBM/ACE/12.0.5.0/tools" />
+    <!--<property name="iib.createbar" value="C:/Program Files/IBM/ACE/12.0.5.0/tools" />
 	<property name="iib.home" value="C:/Program Files/IBM/ACE/12.0.5.0" />
-    <!--<property name="bars.basedir" value="C:/Users/Admin/Archive" />
-    <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />-->
+    <property name="bars.basedir" value="C:/Users/Admin/Archive" />
+    <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />
+	<property name="application.name" value="APP_TEST" />-->
     <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
-	<property name="application.name" value="APP_TEST" />
 	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
 	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/UAT/uat.properties -r" />
     <antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
+  
   <target name="build">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b @${workspace.dir}/Bars/BAR_APP_TEST.bar -a ${application.name} -deployAsSource" />
+     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
      <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
 		<arg value="${workspace.dir}" />
 		<arg value="-b" />
-		<arg value="${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+		<arg value="${workspace.dir}/Bars/${bar.name}" />
 		<arg value="-a" />
         <arg value="${application.name}" /> 
 		<arg value="-deployAsSource" />
      </exec>
-	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
+	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${bar.name}" />
   </target>
+  
   <target name="override">
 	<echo message="OVERRIDE target starting ..." />
 	<echo message="Command line: java -cp ... ${mqsi.applybaroverride}  ${mqsi.applybaroverride.parameters}" />
@@ -42,8 +45,18 @@
   		</classpath>
  	</java>
   </target>
+  
   <target name="deploy"> 
 	<echo message="Deploying barfile in ${environment}" />
+	<exec executable="${iib.deploy}/mqsideploy">
+	<arg value="${iib.broker}" />
+	<arg value="-e" />
+	<arg value="${iib.server}" />
+	<arg value="-a" />
+	<arg value="${workspace.dir}/Bars/${bar.name}" />
+	<arg value="-w" />
+    <arg value="180" />
+	</exec>
   </target>
   
 </project>
