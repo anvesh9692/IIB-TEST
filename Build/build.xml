@@ -25,7 +25,7 @@
      </exec>
 	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/BAR_APP_TEST.bar" />
   </target>
-  <target name="override" depends="compile" description="Overrides properties of the built BAR file using the mqsiapplybaroverride command.The new property values are read from an overrides file." unless="${deploy.only}">
+  <target name="override">
 	<echo message="OVERRIDE target starting ...${line.separator}" />
 	<echo message="Command line: java -cp ... ${mqsi.applybaroverride}  ${mqsi.applybaroverride.parameters}${line.separator}" />
 	<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
