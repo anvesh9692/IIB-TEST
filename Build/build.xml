@@ -53,7 +53,7 @@
 	<attribute name="execgroup" default="${iib.server}"/>
 	<attribute name="barfile" default="${workspace.dir}/Bars/${bar.name}" />
 	<attribute name="timeoutsecs" default="180" />-->
-	<sequential>
+	
 	<exec executable="cmd.exe" failonerror="true">
 	<!--<arg line="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin' @{inode} @{hostname} @{port} @{execgroup} @{barfile} @{timeoutsecs}" />-->
 		<arg value="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin'" />
@@ -64,7 +64,7 @@
 		<arg value="${workspace.dir}/Bars/${bar.name}" />
 		<arg value="180" />	
 	</exec>
-	</sequential>
+	
   </target>
   <!--<target name="deploy"> 
 	<echo message="Deploying barfile in ${environment}" />
