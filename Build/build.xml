@@ -3,15 +3,15 @@
   <target name="properties" description="Loading properties from build.properties file">
     <property file="${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace.dir}" />
-	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
+	<!--<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />-->
 	<antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
   
   <target name="build" description="Creating bar file">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
+     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${environment}/${bar.name} -a ${application.name} -deployAsSource" />
      <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
 		<arg value="${workspace.dir}" />
