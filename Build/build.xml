@@ -45,7 +45,7 @@
   		</classpath>
  	</java>-->
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
 		
 	</exec>
 	
