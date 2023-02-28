@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <project name="IIB - Build and Deployments" default="properties">
   <target name="properties" description="Loading properties from build.properties file">
-    <property file="${current.dir}/Build/build.properties"/>
-	<echo message="Current Directory Location : ${current.dir}" />
+    <property file="${basedir}/build.properties" />
+	<echo message="Current Directory Location : ${workspace.dir}" />
 	<antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
   
   <target name="build" description="Creating bar file">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${current.dir} -b ${current.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
+     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
      <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
-		<arg value="${current.dir}" />
+		<arg value="${workspace.dir}" />
 		<arg value="-b" />
-		<arg value="${current.dir}/Bars/${environment}/${bar.name}" />
+		<arg value="${workspace.dir}/Bars/${environment}/${bar.name}" />
 		<arg value="-a" />
         <arg value="${application.name}" /> 
 		<arg value="-deployAsSource" />
      </exec>
-	 <echo message="Bar file created sucessfully @ ${current.dir}/Bars/${environment}/${bar.name}" />
+	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${environment}/${bar.name}" />
   </target>
   
   <target name="override" description="overriding bar file">
@@ -47,7 +47,7 @@
 		<arg value="-e" />
 		<arg value="${iib.server}" />
 		<arg value="-a" />
-		<arg value="${current.dir}/Bars/${environment}/${bar.name}" />
+		<arg value="${workspace.dir}/Bars/${environment}/${bar.name}" />
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
