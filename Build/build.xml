@@ -4,7 +4,7 @@
     <property file="${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace.dir}" />
 	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/${environment}/perf.properties -r" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
 	<antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
