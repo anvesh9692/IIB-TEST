@@ -2,32 +2,34 @@
 <project name="project" default="run">
   <target name="run" description="">
   <echo message="Loading properties" />
-    <property file="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST/Build/build.properties"/>
+	
+    <property file="${basedir}/build.properties"/>
     <!--<property name="iib.createbar" value="C:/Program Files/IBM/ACE/12.0.5.0/tools" />
 	<property name="iib.home" value="C:/Program Files/IBM/ACE/12.0.5.0" />
     <property name="bars.basedir" value="C:/Users/Admin/Archive" />
-    <property name="bar.location" value="${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />
+    <property name="bar.location" value="${workspace.dir}${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />
 	<property name="application.name" value="APP_TEST" />-->
-    <property name="workspace.dir" value="C:/Users/Admin/AppData/Local/Jenkins/.jenkins/workspace/IIB-TEST" />
+    <property name="${basedir}" value="../" />
+	<echo message="Current Location : ${basedir}" />
 	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${workspace.dir}/Bars/BAR_APP_TEST.bar -p ${workspace.dir}/Properties/${environment}/perf.properties -r" />
+	<property name="mqsi.applybaroverride.parameters" value="-b ${basedir}\Bars\${environment}\${bar.name} -p ${basedir}\Properties\${environment}\${property.file.name} -r" />
     <antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
   
   <target name="build">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${basedir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
-     <exec executable="${iib.createbar}/mqsicreatebar">
+     <echo message="Creating Bar file @ mqsicreatebar -data ${basedir} -b ${basedir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
+     <exec executable="${iib.createbar}\mqsicreatebar">
        	<arg value="-data" />
-		<arg value="${workspace.dir}" />
+		<arg value="${basedir}" />
 		<arg value="-b" />
-		<arg value="${workspace.dir}/Bars/${bar.name}" />
+		<arg value="${basedir}\Bars\${environment}\${bar.name}" />
 		<arg value="-a" />
         <arg value="${application.name}" /> 
 		<arg value="-deployAsSource" />
      </exec>
-	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${bar.name}" />
+	 <echo message="Bar file created sucessfully @ ${basedir}\Bars\${environment}\${bar.name}" />
   </target>
   
   <target name="override">
@@ -36,10 +38,10 @@
 	<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
 		<arg line="${mqsi.applybaroverride.parameters} -runtime" />
 		<classpath>
-   			<fileset dir="${iib.home}/server/classes">
+   			<fileset dir="${iib.home}\server\classes">
     				<include name="*.jar"/>
    			</fileset>
-			<fileset dir="${iib.home}/common/classes">
+			<fileset dir="${iib.home}\common\classes">
 				<include name="*.jar"/>
 			</fileset>
   		</classpath>
@@ -47,15 +49,7 @@
   </target>
   
   <target name="deploy">
-	<!--<attribute name="inode" default="${iib.broker}" />
-	<attribute name="hostname" default="localhost" />
-	<attribute name="port" default="4417" />
-	<attribute name="execgroup" default="${iib.server}"/>
-	<attribute name="barfile" default="${workspace.dir}/Bars/${bar.name}" />
-	<attribute name="timeoutsecs" default="180" />-->
-	
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-	<!--<arg line="${workspace.dir}/Build/deploycmd.bat '${iib.home}/server/bin' @{inode} @{hostname} @{port} @{execgroup} @{barfile} @{timeoutsecs}" />-->
+	<exec executable="${iib.home}\ace.cmd" failonerror="true">
 		<arg value="mqsideploy" />
 		<arg value="${iib.broker}" />
 		<!--<arg value="-i" />
@@ -65,23 +59,10 @@
 		<arg value="-e" />
 		<arg value="${iib.server}" />
 		<arg value="-a" />
-		<arg value="${workspace.dir}/Bars/${bar.name}" />
+		<arg value="${basedir}/Bars/${environment}/${bar.name}" />
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
-	
   </target>
-  <!--<target name="deploy"> 
-	<echo message="Deploying barfile in ${environment}" />
-	<exec executable="${workspace.dir}/Build/deploycmd.bat">
-		<arg value="${iib.deploy}" />
-		<arg value="${iib.broker}" />
-		<arg value="localhost" />
-		<arg value="4417" />
-		<arg value="${iib.server}" />
-		<arg value="${workspace.dir}/Bars/${bar.name}" />
-		<arg value="180" />			
-	</exec>
-  </target>-->
   
 </project>
