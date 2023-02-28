@@ -1,55 +1,43 @@
 <?xml version="1.0"?>
-<project name="project" default="run">
-  <target name="run" description="">
-  <echo message="Loading properties" />
-	
-    <property file="${basedir}/build.properties"/>
-    <!--<property name="iib.createbar" value="C:/Program Files/IBM/ACE/12.0.5.0/tools" />
-	<property name="iib.home" value="C:/Program Files/IBM/ACE/12.0.5.0" />
-    <property name="bars.basedir" value="C:/Users/Admin/Archive" />
-    <property name="bar.location" value="${workspace.dir}${bars.basedir}/BAR_APP_EMPLOYEE_DETAILS.bar" />
-	<property name="application.name" value="APP_TEST" />-->
-    <property name="${basedir}" value="../" />
-	<echo message="Current Location : ${basedir}" />
-	<property name="mqsi.applybaroverride" value="com.ibm.broker.config.util.ApplyBarOverride" />
-	<property name="mqsi.applybaroverride.parameters" value="-b ${basedir}\Bars\${environment}\${bar.name} -p ${basedir}\Properties\${environment}\${property.file.name} -r" />
-    <antcall target="build" />
+<project name="IIB - Build and Deployments" default="properties">
+  <target name="properties" description="Loading properties from build.properties file">
+    <property file="${current.dir}/Build/build.properties"/>
+	<echo message="Current Directory Location : ${current.dir}" />
+	<antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
   
-  <target name="build">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${basedir} -b ${basedir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
-     <exec executable="${iib.createbar}\mqsicreatebar">
+  <target name="build" description="Creating bar file">
+     <echo message="Creating Bar file @ mqsicreatebar -data ${current.dir} -b ${current.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
+     <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
-		<arg value="${basedir}" />
+		<arg value="${current.dir}" />
 		<arg value="-b" />
-		<arg value="${basedir}\Bars\${environment}\${bar.name}" />
+		<arg value="${current.dir}/Bars/${environment}/${bar.name}" />
 		<arg value="-a" />
         <arg value="${application.name}" /> 
 		<arg value="-deployAsSource" />
      </exec>
-	 <echo message="Bar file created sucessfully @ ${basedir}\Bars\${environment}\${bar.name}" />
+	 <echo message="Bar file created sucessfully @ ${current.dir}/Bars/${environment}/${bar.name}" />
   </target>
   
-  <target name="override">
-	<echo message="OVERRIDE target starting ..." />
-	<echo message="Command line: java -cp ... ${mqsi.applybaroverride}  ${mqsi.applybaroverride.parameters}" />
+  <target name="override" description="overriding bar file">
 	<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
 		<arg line="${mqsi.applybaroverride.parameters} -runtime" />
 		<classpath>
-   			<fileset dir="${iib.home}\server\classes">
+   			<fileset dir="${iib.home}/server/classes">
     				<include name="*.jar"/>
    			</fileset>
-			<fileset dir="${iib.home}\common\classes">
+			<fileset dir="${iib.home}/common/classes">
 				<include name="*.jar"/>
 			</fileset>
   		</classpath>
  	</java>
   </target>
   
-  <target name="deploy">
-	<exec executable="${iib.home}\ace.cmd" failonerror="true">
+  <target name="deploy" description="deploying bar file">
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
 		<arg value="mqsideploy" />
 		<arg value="${iib.broker}" />
 		<!--<arg value="-i" />
@@ -59,7 +47,7 @@
 		<arg value="-e" />
 		<arg value="${iib.server}" />
 		<arg value="-a" />
-		<arg value="${basedir}/Bars/${environment}/${bar.name}" />
+		<arg value="${current.dir}/Bars/${environment}/${bar.name}" />
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
