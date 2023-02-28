@@ -17,7 +17,7 @@
   </target>
   
   <target name="build">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
+     <echo message="Creating Bar file @ mqsicreatebar -data ${basedir} -b ${workspace.dir}/Bars/${bar.name} -a ${application.name} -deployAsSource" />
      <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
 		<arg value="${workspace.dir}" />
