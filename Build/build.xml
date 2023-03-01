@@ -4,8 +4,8 @@
     <property file="${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace.dir}" />
 	<antcall target="build" />
-	<!--<antcall target="override" />-->
-	<!--<antcall target="deploy" />-->
+	<antcall target="override" />
+	<antcall target="deploy" />
   </target>
   
   <target name="build" description="Creating bar file">
@@ -28,7 +28,7 @@
 	<copy file="${workspace.dir}/Bars/${environment}/${bar.name}" todir="${workspace.dir}/Bars/PERF"/>
 	<copy file="${workspace.dir}/Bars/${environment}/${bar.name}" todir="${workspace.dir}/Bars/PROD"/>
 	 <!--<echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${environment}/${bar.name}" />-->
-	 <echo message="Bar fileS created sucessfully @ ${workspace.dir}/Bars/" />
+	 <echo message="Bar files created sucessfully @ ${workspace.dir}/Bars/" />
   </target>
   
   <target name="override" description="overriding bar file">
@@ -46,17 +46,29 @@
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />	
 	</exec>
-	
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
+	</exec>
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/UAT/${bar.name} -p ${workspace.dir}/Properties/UAT/${application.name}_UAT.properties -r" />
+	</exec>
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />	
+	</exec>
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
+	</exec>
+	<echo message="Bar files override sucessfully @ ${workspace.dir}/Bars/" />
   </target>
   
-  <!--<target name="deploy" description="deploying bar file">
+  <target name="deploy" description="deploying bar file">
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
 		<arg value="mqsideploy" />
 		<arg value="${iib.broker}" />
-		<arg value="-i" />
+		<!--<arg value="-i" />
 		<arg value="localhost" />
 		<arg value="-p" />
-		<arg value="4417" />
+		<arg value="4417" />-->
 		<arg value="-e" />
 		<arg value="${iib.server}" />
 		<arg value="-a" />
@@ -64,6 +76,6 @@
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
-  </target>-->
-  
+	<echo message="***Bar files deployment sucessfully***" />
+  </target>  
 </project>
