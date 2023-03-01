@@ -4,13 +4,13 @@
     <property file="${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace.dir}" />
 	<antcall target="build" />
-	<antcall target="override" />
+	<!--<antcall target="override" />-->
 	<!--<antcall target="deploy" />-->
   </target>
   
   <target name="build" description="Creating bar file">
-     <echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${environment}/${bar.name} -a ${application.name} -deployAsSource" />
-     <!--<exec executable="${iib.createbar}/mqsicreatebar">
+     <!--<echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${environment}/${bar.name} -a ${application.name} -deployAsSource" />
+     <exec executable="${iib.createbar}/mqsicreatebar">
        	<arg value="-data" />
 		<arg value="${workspace.dir}" />
 		<arg value="-b" />
@@ -20,19 +20,27 @@
 		<arg value="-deployAsSource" />
      </exec>-->
 	 <exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg value="mqsicreatebar" />
-		<arg value="-data" />
-		<arg value="${workspace.dir}" />
-		<arg value="-b" />
-		<arg value="${workspace.dir}/Bars/${environment}/${bar.name}" />
-		<arg value="-a" />
-		<arg value="${application.name}" />
-		<arg value="-deployAsSource" />	
+		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${environment}/${bar.name} -a ${application.name} -deployAsSource" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
+		<arg line="cd ${workspace.dir}/Bars/${environment}" />
+		<arg line="mkdir ${workspace.dir}/Bars/SIT" />
+		<arg line="copy ${workspace.dir}/Bars/${environment}/${bar.name} ${workspace.dir}/Bars/SIT" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
+		<arg line="mkdir ${workspace.dir}/Bars/UAT" />
+		<arg line="copy ${workspace.dir}/Bars/${environment}/${bar.name} ${workspace.dir}/Bars/UAT" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/UAT/${bar.name} -p ${workspace.dir}/Properties/UAT/${application.name}_UAT.properties -r" />
+		<arg line="mkdir ${workspace.dir}/Bars/PERF" />
+		<arg line="copy ${workspace.dir}/Bars/${environment}/${bar.name} ${workspace.dir}/Bars/PERF" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />
+		<arg line="mkdir ${workspace.dir}/Bars/PROD" />
+		<arg line="copy ${workspace.dir}/Bars/${environment}/${bar.name} ${workspace.dir}/Bars/PROD" />
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
 	</exec>
-	 <echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${environment}/${bar.name}" />
+	 <!--<echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${environment}/${bar.name}" />-->
+	 <echo message="Bar fileS created sucessfully @ ${workspace.dir}/Bars/" />
   </target>
   
-  <target name="override" description="overriding bar file">
+  <!--<target name="override" description="overriding bar file">-->
 	<!--<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
 		<arg line="${mqsi.applybaroverride.parameters} -runtime" />
 		<classpath>
@@ -44,12 +52,12 @@
 			</fileset>
   		</classpath>
  	</java>-->
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+	<!--<exec executable="${iib.home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/${environment}/${bar.name} -p ${workspace.dir}/Properties/${environment}/${property.file.name} -r" />
 		
 	</exec>
 	
-  </target>
+  </target>-->
   
   <!--<target name="deploy" description="deploying bar file">
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
