@@ -2,6 +2,7 @@
 <project name="IIB - Build and Deployments" default="properties">
   <target name="properties" description="Loading properties from build.properties file">
     <property file="${basedir}/build.properties" />
+	<echo message="Loading properties from ${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace.dir}" />
 	<antcall target="build" />
 	<antcall target="override" />
@@ -76,6 +77,6 @@
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
-	<echo message="***Bar files deployment sucessfully***" />
+	<echo message="****Bar files deployment sucessfully****" />
   </target>  
 </project>
