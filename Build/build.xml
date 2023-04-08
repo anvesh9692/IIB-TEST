@@ -77,6 +77,6 @@
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
-	<echo message="****Bar files deployment sucessfully****" />
+	<echo message="****Bar file deployment sucessfully @${environment} Environment****" />
   </target>  
 </project>
