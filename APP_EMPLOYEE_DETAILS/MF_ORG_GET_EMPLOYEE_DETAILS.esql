@@ -1,0 +1,45 @@
+DECLARE Emp_Dtls SHARED ROW;
+
+CREATE COMPUTE MODULE MF_GET_EMPLOYEE_DETAILS
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		--REFRESH_CACHE: BEGIN ATOMIC
+		DECLARE DateTime CHARACTER;
+		DECLARE CurrentDateTime TIMESTAMP;
+		DECLARE InRef REFERENCE TO InputRoot.XMLNSC.Req_Emp_Dtls;
+		SET CurrentDateTime = CURRENT_TIMESTAMP + INTERVAL '-5' HOUR + INTERVAL '-30' MINUTE + INTERVAL '-1' SECOND;
+		SET DateTime = CAST(CurrentDateTime AS CHARACTER FORMAT 'yyyy-MM-dd'' ''HH:mm:ss.SSS');
+		SET Environment.Variables.EMPLOYEE_ID = InRef.EMPLOYEE_ID;
+		
+		IF (NOT EXISTS(Emp_Dtls.Data[])) THEN
+		SET Emp_Dtls.Data[] = PASSTHRU('SELECT * FROM EMPLOYEE_DETAILS');
+		END IF;
+		
+		SET Environment.EmployeeDetails[] = SELECT A.EMPLOYEE_NAME,A.EMPLOYEE_ORGANISATION,A.EMPLOYEE_DESIGNATION,A.EMPLOYEE_EXPERIENCE,A.EMPLOYEE_TECHNOLOGY,A.EMPLOYEE_ADDRESS FROM Emp_Dtls.Data[] AS A WHERE A.EMPLOYEE_ID = InRef.EMPLOYEE_ID;  
+		
+		IF EXISTS(Environment.EmployeeDetails[]) THEN
+		
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_ID = InRef.EMPLOYEE_ID;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_NAME = Environment.EmployeeDetails.EMPLOYEE_NAME;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_ORGANISATION = Environment.EmployeeDetails.EMPLOYEE_ORGANISATION;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_DESIGNATION = Environment.EmployeeDetails.EMPLOYEE_DESIGNATION;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_EXPERIENCE = Environment.EmployeeDetails.EMPLOYEE_EXPERIENCE;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_TECHNOLOGY = Environment.EmployeeDetails.EMPLOYEE_TECHNOLOGY;
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.EMPLOYEE_ADDRESS = Environment.EmployeeDetails.EMPLOYEE_ADDRESS;
+			
+			PROPAGATE TO TERMINAL 'out' DELETE NONE;
+			
+			SET OutputRoot.XMLNSC.Resp_Emp_Dtls.DB_ENTRY_DATE_TIME = DateTime;
+			
+			PROPAGATE TO TERMINAL 'out1';
+			RETURN FALSE;
+		
+		ELSE
+			SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code" = 400;
+			SET OutputRoot.XMLNSC.Fault_Emp_Dtls.ERROR_DESCRIPTION = 'Recheck the Employee ID, No Employee details found with the given Employee_ID - '||InRef.EMPLOYEE_ID;
+		END IF;
+		--END REFRESH_CACHE;
+		RETURN TRUE;
+	END;
+
+END MODULE;

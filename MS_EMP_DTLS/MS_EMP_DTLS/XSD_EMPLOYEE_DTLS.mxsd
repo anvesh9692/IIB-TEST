@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="EMPLOYEE_ID">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:length value="7"/>
+    			<xsd:pattern value="[0-9]{7}"/>
+    			<xsd:whiteSpace value="collapse"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_NAME">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="3"/>
+    			<xsd:maxLength value="40"/>
+    			<xsd:pattern value="[\sA-Za-z]{3,40}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_ORGANISATION">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="3"/>
+    			<xsd:maxLength value="40"/>
+    			<xsd:pattern value="[\sA-Za-z0-9.]{3,40}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_DESIGNATION">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="3"/>
+    			<xsd:maxLength value="40"/>
+    			<xsd:pattern value="[\sA-Za-z.]{3,40}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_EXPERIENCE">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="2"/>
+    			<xsd:maxLength value="28"/>
+    			<xsd:pattern value="[\s0-9A-Za-z,.+]{2,28}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_TECHNOLOGY">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="3"/>
+    			<xsd:maxLength value="60"/>
+    			<xsd:pattern value="[\sa-zA-Z0-9,.+-]{3,60}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="EMPLOYEE_ADDRESS">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="3"/>
+    			<xsd:maxLength value="40"/>
+    			<xsd:pattern value="[\sA-Za-z0-9,.@#-]{3,40}">
+    			</xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:complexType name="Resp_Emp_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="EMPLOYEE_ID"/>
+    		<xsd:element ref="EMPLOYEE_NAME"/>
+    		<xsd:element ref="EMPLOYEE_ORGANISATION"/>
+    		<xsd:element ref="EMPLOYEE_DESIGNATION"/>
+    		<xsd:element ref="EMPLOYEE_EXPERIENCE"/>
+    		<xsd:element ref="EMPLOYEE_TECHNOLOGY"/>
+    		<xsd:element ref="EMPLOYEE_ADDRESS"/>
+    		<xsd:element maxOccurs="0" minOccurs="0" ref="DB_ENTRY_DATE_TIME"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Req_Emp_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="EMPLOYEE_ID"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Fault_Emp_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="ERROR_DESCRIPTION"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="ERROR_DESCRIPTION">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:length value="23"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:complexType name="EMPLOYEE_DETAILS">
+    	<xsd:sequence>
+    		<xsd:element ref="EMPLOYEE_ID"/>
+    		<xsd:element ref="EMPLOYEE_NAME"/>
+    		<xsd:element ref="EMPLOYEE_ORGANISATION"/>
+    		<xsd:element ref="EMPLOYEE_DESIGNATION"/>
+    		<xsd:element ref="EMPLOYEE_EXPERIENCE"/>
+    		<xsd:element ref="EMPLOYEE_TECHNOLOGY"/>
+    		<xsd:element ref="EMPLOYEE_ADDRESS"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="DB_ENTRY_DATE_TIME" type="xsd:string"/>
+    <xsd:element name="Resp_Emp_Dtls" type="Resp_Emp_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Resp_Emp_Dtls;XSDElementDeclaration=9$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+    <xsd:element name="Req_Emp_Dtls" type="Req_Emp_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Req_Emp_Dtls;XSDElementDeclaration=10$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+    <xsd:element name="Fault_Emp_Dtls" type="Fault_Emp_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Fault_Emp_Dtls;XSDElementDeclaration=11$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+    <xsd:element name="EMPLOYEE_DETAILS" type="EMPLOYEE_DETAILS">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/EMPLOYEE_DETAILS;XSDElementDeclaration=12$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+</xsd:schema>

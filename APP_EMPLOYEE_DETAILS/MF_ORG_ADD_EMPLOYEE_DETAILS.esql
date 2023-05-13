@@ -1,0 +1,42 @@
+
+
+CREATE COMPUTE MODULE MF_ORG_ADD_EMPLOYEE_DETAILS
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		DECLARE ADD_EMPLOYEE_DETAILS ROW;
+		DECLARE InRef REFERENCE TO InputRoot.XMLNSC.EMPLOYEE_DETAILS;
+		SET Environment.TableName='EMPLOYEE_DETAILS';
+		SET Environment.Variables.EmployeeDetails[]=InputRoot.XMLNSC.EMPLOYEE_DETAILS[];
+		SET Environment.Variables.CheckIfEmployeeExists[] = PASSTHRU ('SELECT A.EMPLOYEE_ID FROM EMPLOYEE_DETAILS A WHERE A.EMPLOYEE_ID=?',InRef.EMPLOYEE_ID);
+		--Send error if employee details are already available in DB
+		IF EXISTS(Environment.Variables.CheckIfEmployeeExists.EMPLOYEE_ID[]) THEN
+			THROW USER EXCEPTION MESSAGE 1001 VALUES ('Employee details are already registered - ' || InRef.EMPLOYEE_ID);
+			--SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code" = 400;
+			--SET OutputRoot.XMLNSC.EmployeeDetails = 'Employee details are already registered - '|| COALESCE(Environment.Variables.EmployeeDetails.EMPLOYEE_NAME,Environment.Variables.CheckIfEmployeeExists.EMPLOYEE_ID) ;
+		--Insert employee details to DB if all the mandatory fields are available in input message
+		ELSEIF (EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_ID[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_NAME[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_ORGANISATION[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_DESIGNATION[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_EXPERIENCE[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_TECHNOLOGY[]) AND 
+			   EXISTS(Environment.Variables.EmployeeDetails.EMPLOYEE_ADDRESS[])) THEN
+			
+			SET ADD_EMPLOYEE_DETAILS = 'INSERT INTO '|| Environment.TableName  ||'(EMPLOYEE_ID,EMPLOYEE_NAME,EMPLOYEE_ORGANISATION,EMPLOYEE_DESIGNATION,EMPLOYEE_EXPERIENCE,EMPLOYEE_TECHNOLOGY,EMPLOYEE_ADDRESS) VALUES (?,?,?,?,?,?,?)';
+			PASSTHRU(ADD_EMPLOYEE_DETAILS,InRef.EMPLOYEE_ID,InRef.EMPLOYEE_NAME,InRef.EMPLOYEE_ORGANISATION,InRef.EMPLOYEE_DESIGNATION,InRef.EMPLOYEE_EXPERIENCE,InRef.EMPLOYEE_TECHNOLOGY,InRef.EMPLOYEE_ADDRESS);
+			COMMIT;
+			SET OutputRoot.XMLNSC.EmployeeDetails = 'Employee Details Recorded Sucessfully';
+		
+		ELSE
+			
+			SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code" = 400;
+			SET OutputRoot.XMLNSC.EmployeeDetails = 'Invalid Employee Details, All the fields are mandatory. Please recheck the employee details entered';
+		
+		END IF;
+		
+		RETURN TRUE;
+	END;
+
+END MODULE;

@@ -1,0 +1,21 @@
+
+
+CREATE COMPUTE MODULE MF_ORG_GET_ALL_EMP_DTLS
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE Emp_Dtls ROW;
+		DECLARE Emp_Count,Count INTEGER;
+		SET Emp_Dtls.Data[] = PASSTHRU('SELECT * FROM EMPLOYEE_DETAILS');
+		SET Emp_Count = CARDINALITY(Emp_Dtls.Data[]);
+		SET Count = 1;
+		WHILE Count<=Emp_Count DO
+			SET OutputRoot.XMLNSC.Employee_Details.EMPLOYEE_ID = Emp_Dtls.Data[Count].EMPLOYEE_ID;
+			SET OutputRoot.XMLNSC.Employee_Details.EMPLOYEE_NAME = Emp_Dtls.Data[Count].EMPLOYEE_NAME;
+			SET OutputRoot.XMLNSC.Employee_Details.EMPLOYEE_ORGANISATION = Emp_Dtls.Data[Count].EMPLOYEE_ORGANISATION;
+			SET OutputRoot.XMLNSC.Employee_Details.EMPLOYEE_TECHNOLOGY = Emp_Dtls.Data[Count].EMPLOYEE_TECHNOLOGY;
+			PROPAGATE TO TERMINAL 'out';
+			SET Count = Count+1;
+		END WHILE;
+		RETURN FALSE;
+	END;
+END MODULE;
