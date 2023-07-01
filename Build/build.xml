@@ -21,7 +21,7 @@
 		<arg value="-deployAsSource" />
      </exec>-->
 	 <exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -version ${bar.version} -a ${application.name} -deployAsSource" />
+		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -a ${application.name} -deployAsSource" />
 		
 	</exec>
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/SIT"/>
