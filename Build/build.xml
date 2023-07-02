@@ -21,9 +21,11 @@
 		<arg value="-deployAsSource" />
      </exec>-->
 	 <exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -a ${application.name} -deployAsSource" />
-		
-	</exec>
+		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -a ${application.name} -deployAsSource" />	
+	 </exec>
+	 <!--<exec executable="${iib.home}/ace.cmd" failonerror="true">
+		<arg line="copy ${workspace.dir}/Bars/DEV/BAR_${application.name}.bar ${workspace.dir}/Bars/DEV/BAR_${application.name}.zip" />
+	 </exec>-->
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/SIT"/>
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/UAT"/>
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/PERF"/>
@@ -45,13 +47,19 @@
   		</classpath>
  	</java>-->
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/DEV/${bar.name} -p ${workspace.dir}/Properties/DEV/${application.name}_DEV.properties -r" />
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/UAT/${bar.name} -p ${workspace.dir}/Properties/UAT/${application.name}_UAT.properties -r" />
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
+	
+		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/DEV/${bar.name} -p ${workspace.dir}/Properties/DEV/${application.name}_DEV.properties -r" />
+		
+		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
+		
+		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/UAT/${bar.name} -p ${workspace.dir}/Properties/UAT/${application.name}_UAT.properties -r" />
+		
+		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />
+		
+		<arg value="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
+		<!--<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/DEV/${bar.name} -p ${workspace.dir}/Properties/DEV/${application.name}_DEV.properties -r" />
 	</exec>
-	<!--<exec executable="${iib.home}/ace.cmd" failonerror="true">
+	<exec executable="${iib.home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
 	</exec>
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
@@ -61,8 +69,8 @@
 		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />	
 	</exec>
 	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
-	</exec>-->
+		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />-->
+	</exec>
 	<echo message="Bar files override sucessfully @ ${workspace.dir}/Bars/" />
   </target>
   
