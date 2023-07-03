@@ -3,71 +3,71 @@
   <target name="properties" description="Loading properties from build.properties file">
     <property file="${basedir}/build.properties" />
 	<echo message="Loading properties from ${basedir}/build.properties" />
-	<echo message="Current Directory Location : ${workspace.dir}" />
+	<echo message="Current Directory Location : ${workspace_dir}" />
 	<antcall target="build" />
 	<antcall target="override" />
 	<antcall target="deploy" />
   </target>
   
   <target name="build" description="Creating bar file">
-     <!--<echo message="Creating Bar file @ mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/${environment}/${bar.name} -a ${application.name} -deployAsSource" />
-     <exec executable="${iib.createbar}/mqsicreatebar">
+     <!--<echo message="Creating Bar file @ mqsicreatebar -data ${workspace_dir} -b ${workspace_dir}/Bars/${environment}/${bar_name} -a ${application_name} -deployAsSource" />
+     <exec executable="${iib_createbar}/mqsicreatebar">
        	<arg value="-data" />
-		<arg value="${workspace.dir}" />
+		<arg value="${workspace_dir}" />
 		<arg value="-b" />
-		<arg value="${workspace.dir}/Bars/${environment}/${bar.name}" />
+		<arg value="${workspace_dir}/Bars/${environment}/${bar_name}" />
 		<arg value="-a" />
-        <arg value="${application.name}" /> 
+        <arg value="${application_name}" /> 
 		<arg value="-deployAsSource" />
      </exec>-->
-	 <exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -a ${application.name} -deployAsSource" />	
+	 <exec executable="${iib_home}/ace.cmd" failonerror="true">
+		<arg line="mqsicreatebar -data ${workspace_dir} -b ${workspace_dir}/Bars/DEV/${bar_name} -a ${application_name} -deployAsSource" />	
 	 </exec>
-	 <exec executable="${iib.home}/ace.cmd" dir="${workspace.dir}/Build/">
+	 <exec executable="${iib_home}/ace.cmd" dir="${workspace_dir}/Build/">
 		<arg line="Batch_Bar_Version_Updater.bat" />
 	 </exec>
-	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/SIT"/>
-	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/UAT"/>
-	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/PERF"/>
-	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/PROD"/>
-	 <!--<echo message="Bar file created sucessfully @ ${workspace.dir}/Bars/${environment}/${bar.name}" />-->
-	 <echo message="Bar files created sucessfully @ ${workspace.dir}/Bars/" />
+	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/SIT"/>
+	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/UAT"/>
+	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/PERF"/>
+	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/PROD"/>
+	 <!--<echo message="Bar file created sucessfully @ ${workspace_dir}/Bars/${environment}/${bar_name}" />-->
+	 <echo message="Bar files created sucessfully @ ${workspace_dir}/Bars/" />
   </target>
   
   <target name="override" description="overriding bar file">
-	<!--<java classname="${mqsi.applybaroverride}" failonerror="true" fork="true">
-		<arg line="${mqsi.applybaroverride.parameters} -runtime" />
+	<!--<java classname="${mqsi_applybaroverride}" failonerror="true" fork="true">
+		<arg line="${mqsi_applybaroverride_parameters} -runtime" />
 		<classpath>
-   			<fileset dir="${iib.home}/server/classes">
+   			<fileset dir="${iib_home}/server/classes">
     				<include name="*.jar"/>
    			</fileset>
-			<fileset dir="${iib.home}/common/classes">
+			<fileset dir="${iib_home}/common/classes">
 				<include name="*.jar"/>
 			</fileset>
   		</classpath>
  	</java>-->
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-	<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/DEV/${bar.name} -p ${workspace.dir}/Properties/DEV/${application.name}_DEV.properties -r" />
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
+	<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/DEV/${bar_name} -p ${workspace_dir}/Properties/DEV/${application_name}_DEV.properties -r" />
 	</exec>
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/SIT/${bar.name} -p ${workspace.dir}/Properties/SIT/${application.name}_SIT.properties -r" />
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/SIT/${bar_name} -p ${workspace_dir}/Properties/SIT/${application_name}_SIT.properties -r" />
 	</exec>
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/UAT/${bar.name} -p ${workspace.dir}/Properties/UAT/${application.name}_UAT.properties -r" />
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/UAT/${bar_name} -p ${workspace_dir}/Properties/UAT/${application_name}_UAT.properties -r" />
 	</exec>
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PERF/${bar.name} -p ${workspace.dir}/Properties/PERF/${application.name}_PERF.properties -r" />	
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/PERF/${bar_name} -p ${workspace_dir}/Properties/PERF/${application_name}_PERF.properties -r" />	
 	</exec>
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
-		<arg line="mqsiapplybaroverride -b ${workspace.dir}/Bars/PROD/${bar.name} -p ${workspace.dir}/Properties/PROD/${application.name}_PROD.properties -r" />
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
+		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/PROD/${bar_name} -p ${workspace_dir}/Properties/PROD/${application_name}_PROD.properties -r" />
 	</exec>
-	<echo message="Bar files override sucessfully @ ${workspace.dir}/Bars/" />
+	<echo message="Bar files override sucessfully @ ${workspace_dir}/Bars/" />
   </target>
   
   <target name="deploy" description="deploying bar file">
-	<exec executable="${iib.home}/ace.cmd" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg value="mqsideploy" />
-		<arg value="${iib.broker}" />
+		<arg value="${iib_broker}" />
 		<!--<arg value="-i" />
 		<arg value="localhost" />
 		<arg value="-p" />
@@ -75,7 +75,7 @@
 		<arg value="-e" />
 		<arg value="${iib.server}" />
 		<arg value="-a" />
-		<arg value="${workspace.dir}/Bars/${environment}/${bar.name}" />
+		<arg value="${workspace_dir}/Bars/${environment}/${bar_name}" />
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
