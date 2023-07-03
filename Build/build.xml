@@ -24,7 +24,7 @@
 		<arg line="mqsicreatebar -data ${workspace.dir} -b ${workspace.dir}/Bars/DEV/${bar.name} -a ${application.name} -deployAsSource" />	
 	 </exec>
 	 <exec executable="${iib.home}/ace.cmd" dir="${workspace.dir}/Build/">
-		<arg line="/c Batch_Bar_Version_Updater.bat" />
+		<arg line="Batch_Bar_Version_Updater.bat" />
 	 </exec>
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/SIT"/>
 	<copy file="${workspace.dir}/Bars/DEV/${bar.name}" todir="${workspace.dir}/Bars/UAT"/>
