@@ -73,7 +73,7 @@
 		<arg value="-p" />
 		<arg value="4417" />-->
 		<arg value="-e" />
-		<arg value="${iib.server}" />
+		<arg value="${iib_server}" />
 		<arg value="-a" />
 		<arg value="${workspace_dir}/Bars/${environment}/${bar_name}" />
 		<arg value="-w" />
