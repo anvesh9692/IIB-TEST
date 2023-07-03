@@ -1,5 +1,5 @@
 @echo off
-Set AppName=APP_EMPLOYEE_DETAILS
+Set AppName=APP_TEST
 set BarName=BAR_%AppName%
 Set WorkDir=C:\Users\Admin\AppData\Local\Jenkins\.jenkins\workspace\IIB-TEST\Bars
 Set KeywordsDir=C:\Users\Admin\AppData\Local\Jenkins\.jenkins\workspace\IIB-TEST\Build
