@@ -20,7 +20,7 @@
         <arg value="${application_name}" /> 
 		<arg value="-deployAsSource" />
      </exec>-->
-	 <exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	 <exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsicreatebar -data ${workspace_dir} -b ${workspace_dir}/Bars/DEV/${bar_name} -a ${application_name} -deployAsSource" />	
 	 </exec>
 	 <exec executable="${iib_home}/ace.cmd" dir="${workspace_dir}/Build/">
@@ -46,19 +46,19 @@
 			</fileset>
   		</classpath>
  	</java>-->
-	<exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 	<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/DEV/${bar_name} -p ${workspace_dir}/Properties/DEV/${application_name}_DEV.properties -r" />
 	</exec>
-	<exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/SIT/${bar_name} -p ${workspace_dir}/Properties/SIT/${application_name}_SIT.properties -r" />
 	</exec>
-	<exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/UAT/${bar_name} -p ${workspace_dir}/Properties/UAT/${application_name}_UAT.properties -r" />
 	</exec>
-	<exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/PERF/${bar_name} -p ${workspace_dir}/Properties/PERF/${application_name}_PERF.properties -r" />	
 	</exec>
-	<exec executable="${iib_home}/ace.cmd" output="NUL" failonerror="true">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/PROD/${bar_name} -p ${workspace_dir}/Properties/PROD/${application_name}_PROD.properties -r" />
 	</exec>
 	<echo message="Bar files override sucessfully @ ${workspace_dir}/Bars/" />
