@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project name="IIB - Build and Deployments" default="properties">
   <target name="properties" description="Loading properties from build.properties file">
-    <property file="${basedir}/build.properties" />
+    <property file="${basedir}\build.properties" />
 	<echo message="Loading properties from ${basedir}/build.properties" />
 	<echo message="Current Directory Location : ${workspace_dir}" />
 	<antcall target="build" />
@@ -26,7 +26,7 @@
 	 <exec executable="${iib_home}/ace.cmd" dir="${workspace_dir}/Build/" output="No" error="No" >
 		<arg line="Batch_Bar_Version_Updater.bat" />
 	 </exec>
-	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/SIT"/>
+	<copy quiet='No' file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/SIT"/>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/UAT"/>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/PERF"/>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/PROD"/>
