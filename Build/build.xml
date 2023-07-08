@@ -45,10 +45,7 @@
 			</fileset>
   		</classpath>
  	</java>-->
-	<exec executable="${iib_home}/ace.cmd" failonerror="true">
-	<arg path="mqsiapplybaroverride -b ${workspace_dir}/Bars/DEV/${bar_name} -p ${workspace_dir}/Properties/DEV/${application_name}_DEV.properties -r;mqsiapplybaroverride -b ${workspace_dir}/Bars/SIT/${bar_name} -p ${workspace_dir}/Properties/SIT/${application_name}_SIT.properties -r" />
-	</exec>
-	<!--<exec executable="${iib_home}/ace.cmd" failonerror="true" output="No" error="No">
+	<exec executable="${iib_home}/ace.cmd" failonerror="true" output="No" error="No">
 	<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/DEV/${bar_name} -p ${workspace_dir}/Properties/DEV/${application_name}_DEV.properties -r" />
 	</exec>
 	<exec executable="${iib_home}/ace.cmd" failonerror="true" output="No" error="No">
@@ -62,7 +59,7 @@
 	</exec>
 	<exec executable="${iib_home}/ace.cmd" failonerror="true" output="No" error="No">
 		<arg line="mqsiapplybaroverride -b ${workspace_dir}/Bars/PROD/${bar_name} -p ${workspace_dir}/Properties/PROD/${application_name}_PROD.properties -r" />
-	</exec>-->
+	</exec>
 	<echo message="Bar files override sucessfully @ ${workspace_dir}/Bars/" />
   </target>
   
