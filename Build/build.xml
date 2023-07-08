@@ -23,9 +23,9 @@
 	 <exec executable="${iib_home}/ace.cmd" failonerror="true">
 		<arg line="mqsicreatebar -data ${workspace_dir} -b ${workspace_dir}/Bars/DEV/${bar_name} -a ${application_name} -deployAsSource" />	
 	 </exec>
-	 <!--<exec executable="${iib_home}/ace.cmd" dir="${workspace_dir}/Build/">
+	 <exec executable="${iib_home}/ace.cmd" dir="${workspace_dir}/Build/">
 		<arg line="Batch_Bar_Version_Updater.bat" />
-	 </exec>-->
+	 </exec>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/SIT"/>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/UAT"/>
 	<copy file="${workspace_dir}/Bars/DEV/${bar_name}" todir="${workspace_dir}/Bars/PERF"/>
@@ -78,6 +78,9 @@
 		<arg value="${workspace_dir}/Bars/${environment}/${bar_name}" />
 		<arg value="-w" />
 		<arg value="180" />	
+	</exec>
+	<exec executable="${iib_home}/ace.cmd" >
+	<arg line="mqsideploy ${iib_broker} -e ${iib_server} -d ${iib_server}_DefaultApplication" />
 	</exec>
 	<echo message="****Bar file deployment sucessfully @${environment} Environment****" />
   </target>  
