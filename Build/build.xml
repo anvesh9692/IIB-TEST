@@ -79,7 +79,7 @@
 		<arg value="-w" />
 		<arg value="180" />	
 	</exec>
-	<exec executable="${iib_home}/ace.cmd" output="NUL" error="NUL">
+	<exec executable="${iib_home}/ace.cmd" logError="No" >
 	<arg line="mqsideploy ${iib_broker} -e ${iib_server} -d ${iib_server}_DefaultApplication" />
 	</exec>
 	<echo message="****Bar file deployment sucessfully @${environment} Environment****" />
