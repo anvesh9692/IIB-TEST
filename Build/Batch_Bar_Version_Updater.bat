@@ -40,5 +40,8 @@ powershell Compress-Archive -Path %REPLACED_DIR%\Bars\TempBar\* -DestinationPath
 copy %REPLACED_DIR%\Bars\TempBar\BAR_%APPLICATION_NAME%.zip %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar
 rmdir /s /q %REPLACED_DIR%\Bars\TempBar
 del %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.zip
-
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\SIT
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\UAT
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PERF
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PROD
 echo Version update for BAR_%APPLICATION_NAME%.bar is successful
