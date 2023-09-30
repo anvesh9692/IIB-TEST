@@ -1,0 +1,13 @@
+
+
+Importing file: D:\Work\ACE12\Work\LIB_MMP_AB_USER_VALIDATION\XSD_AB_USER_DETAILS.xsd
+
+BIP0224W The message set has no XML Wire Format layer defined. Only the logical information will appear in the model.
+
+Elapsed time processing this message definition file: 0.349 seconds
+Number of warnings for this message definition file: 1
+
+
+Number of files processed: 1
+
+

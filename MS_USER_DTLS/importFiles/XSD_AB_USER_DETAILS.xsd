@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="Username">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"></xsd:minLength>
+    			<xsd:maxLength value="16"></xsd:maxLength>
+    			<xsd:pattern value="[a-zA-Z0-9]{8,16}"></xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="Password">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"></xsd:minLength>
+    			<xsd:maxLength value="16"></xsd:maxLength>
+    			<xsd:pattern value="[A-Za-z0-9!@#$%^&amp;*]{8,16}">
+    			</xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:complexType name="Req_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="Username"></xsd:element>
+    		<xsd:element ref="Password"></xsd:element>
+    		<xsd:element ref="Dob" minOccurs="0" maxOccurs="1"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="LoginDetails" type="xsd:string"></xsd:element>
+
+    <xsd:element name="FileName" type="xsd:string"></xsd:element>
+
+    <xsd:complexType name="Resp_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="LoginDetails"></xsd:element>
+    		<xsd:element ref="FileName"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Fault_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="LoginDetails"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="Dob" type="xsd:string">
+    </xsd:element>
+</xsd:schema>
