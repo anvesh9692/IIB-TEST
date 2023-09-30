@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>APP_TEST</name>
+	<name>APP_AB_BLOG_API</name>
 	<comment></comment>
 	<projects>
+		<project>MS_USER_DTLS</project>
 	</projects>
 	<buildSpec>
-		<buildCommand>
-			<name>org.eclipse.wst.common.project.facet.core.builder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
 		<buildCommand>
 			<name>com.ibm.etools.mft.applib.applibbuilder</name>
 			<arguments>
@@ -119,6 +115,5 @@
 	<natures>
 		<nature>com.ibm.etools.msgbroker.tooling.applicationNature</nature>
 		<nature>com.ibm.etools.msgbroker.tooling.messageBrokerProjectNature</nature>
-		<nature>org.eclipse.wst.common.project.facet.core.nature</nature>
 	</natures>
 </projectDescription>

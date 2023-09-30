@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:element name="Username">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"/>
+    			<xsd:maxLength value="16"/>
+    			<xsd:pattern value="[a-zA-Z0-9]{8,16}"/>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="Password">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"/>
+    			<xsd:maxLength value="16"/>
+    			<xsd:pattern value="[A-Za-z0-9!@#$%^&amp;*]{8,16}">
+    			</xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:complexType name="Req_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="Username"/>
+    		<xsd:element ref="Password"/>
+    		<xsd:element maxOccurs="1" minOccurs="0" ref="Dob"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="LoginDetails" type="xsd:string"/>
+
+    <xsd:element name="FileName" type="xsd:string"/>
+
+    <xsd:complexType name="Resp_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="LoginDetails"/>
+    		<xsd:element ref="FileName"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Fault_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="LoginDetails"/>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:element name="Dob" type="xsd:string">
+    </xsd:element>
+    <xsd:element name="Req_User_Dtls" type="Req_User_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Req_User_Dtls;XSDElementDeclaration=5$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+    <xsd:element name="Resp_User_Dtls" type="Resp_User_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Resp_User_Dtls;XSDElementDeclaration=6$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+    <xsd:element name="Fault_User_Dtls" type="Fault_User_Dtls">
+    <xsd:annotation>
+      <xsd:appinfo source="WMQI_APPINFO">
+        <MRMessage messageDefinition="/0/Fault_User_Dtls;XSDElementDeclaration=7$MRObject"/>
+      </xsd:appinfo>
+    </xsd:annotation>
+  </xsd:element>
+</xsd:schema>

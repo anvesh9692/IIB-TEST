@@ -1,0 +1,85 @@
+DECLARE File_Name_Prefix EXTERNAL CHARACTER;
+DECLARE Original_File_Name EXTERNAL CHARACTER;
+DECLARE File_Path EXTERNAL CHARACTER;
+Declare User_Details SHARED ROW;
+DECLARE File_Name SHARED CHARACTER Original_File_Name;
+DECLARE Actual_File_Name SHARED CHARACTER;
+CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		-- CALL CopyMessageHeaders();
+		-- CALL CopyEntireMessage();
+		
+		DECLARE InRef REFERENCE TO InputRoot.XMLNSC.Req_User_Dtls;
+		
+		IF (NOT EXISTS(User_Details.Data[])) THEN
+		SET User_Details.Data[] = PASSTHRU('SELECT * FROM USERS');
+		END IF;
+		SET Environment.LoginDetails[] = SELECT A.USERNAME,A.PASSWORD FROM User_Details.Data[] AS A WHERE A.USERNAME=InRef.Username;
+		
+			
+		
+		IF (Environment.LoginDetails.USERNAME = InRef.Username) and (Environment.LoginDetails.PASSWORD = InRef.Password) THEN
+			SET Actual_File_Name = File_Name;
+			DECLARE SeqNo CHARACTER;
+			SET SeqNo = CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyMMddHHmmsss');
+			SET File_Name = File_Name_Prefix||SeqNo||'.html';
+			
+			SET OutputLocalEnvironment.Destination.File.Directory = File_Path;
+			SET OutputLocalEnvironment.Destination.File.Name = Actual_File_Name;
+			PROPAGATE TO TERMINAL 'out';
+			RETURN FALSE;
+		ELSE 
+			SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
+			SET OutputRoot.XMLNSC.Fault_User_Dtls.LoginDetails = 'Invalid Credentials';
+			PROPAGATE TO TERMINAL 'out1';
+			RETURN FALSE;
+		END IF;
+	END;
+END MODULE;
+
+CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE_FILE_NAME
+CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot = InputRoot;
+		SET OutputLocalEnvironment.Destination.File.Directory = File_Path;
+		SET OutputLocalEnvironment.Destination.File.Name = File_Name;
+		
+	END;	
+END MODULE;
+
+CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE_FINAL_RESPONSE
+CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.LoginDetails = 'Valid';
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = File_Name;
+	END;	
+END MODULE;
+
+CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE_ERROR_RESPONSE
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code" = InputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code";
+		SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
+		IF CONTAINS(InputRoot.XMLNSC.Errors.Error.ErrorText,'Username') THEN
+		SET OutputRoot.XMLNSC.Fault_User_Dtls.LoginDetails = 'Username is Invalid and must contain only Alphanumeric value,Max 16 Characters';
+		ELSEIF CONTAINS(InputRoot.XMLNSC.Errors.Error.ErrorText,'Password') THEN
+		SET OutputRoot.XMLNSC.Fault_User_Dtls.LoginDetails = 'Password is Invalid and must contain Uppercase, Lowercase, Special Character and Max 16 Characters)';
+		ELSE
+		SET OutputRoot.XMLNSC.Fault_User_Dtls.LoginDetails = InputRoot.XMLNSC.Errors.Error.ErrorText;
+		END IF;
+		RETURN TRUE;
+	END;
+END MODULE;
+
+
+CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE_DEFAULT_RESPONSE
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.LoginDetails = 'Valid';
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = 'Anvesh_Bollimpalli_WebPage.html';
+		RETURN TRUE;
+	END;
+END MODULE;

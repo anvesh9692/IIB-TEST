@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.example.org/XML_AB_USER_DETAILS" xmlns:tns="http://www.example.org/XML_AB_USER_DETAILS" elementFormDefault="qualified">
+
+    <element name="Username">
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="8"></minLength>
+    			<maxLength value="16"></maxLength>
+    			<pattern value="[\s(A-Z)(a-z)(0-9)]{8,16}"></pattern>
+    		</restriction>
+    	</simpleType>
+    </element>
+
+    <element name="Password">
+    	<simpleType>
+    		<restriction base="string">
+    			<minLength value="8"></minLength>
+    			<maxLength value="16"></maxLength>
+    			<pattern
+    				value="[\s(A-Z)(a-z)(0-9)!@#$%^&amp;*]{8,16}">
+    			</pattern>
+    		</restriction>
+    	</simpleType>
+    </element>
+
+    <element name="LoginDetails" type="string"></element>
+
+
+    <element name="FileName" type="string"></element>
+
+    <complexType name="Req_User_Dtls">
+    	<sequence>
+    		<element ref="tns:Username"></element>
+    		<element ref="tns:Password"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Resp_User_Dtls">
+    	<sequence>
+    		<element ref="tns:LoginDetails"></element>
+    		<element ref="tns:FileName"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="Fault_User_Dtls">
+    	<sequence>
+    		<element ref="tns:LoginDetails"></element>
+    	</sequence>
+    </complexType>
+</schema>

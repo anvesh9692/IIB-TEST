@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http:///LIB_MMP_AB_USER_VALIDATION/XSD_AB_USER_VALIDATION.xsd" xmlns:this="http:///LIB_MMP_AB_USER_VALIDATION/XSD_AB_USER_VALIDATION.xsd">
+
+    <xsd:element name="Username">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"></xsd:minLength>
+    			<xsd:maxLength value="16"></xsd:maxLength>
+    			<xsd:pattern value="[\sA-Za-z0-9]{8,16}"></xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+    
+    <xsd:element name="Password">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="8"></xsd:minLength>
+    			<xsd:maxLength value="16"></xsd:maxLength>
+    			<xsd:pattern
+    				value="[\sA-Za-z0-9!@#$%^&amp;*()]{8,16}">
+    			</xsd:pattern>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+
+    <xsd:complexType name="Req_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="this:Username"></xsd:element>
+    		<xsd:element ref="this:Password"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Resp_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="this:LoginDetails"></xsd:element>
+    		<xsd:element ref="this:FileName"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+    
+    <xsd:element name="LoginDetails">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:minLength value="5"></xsd:minLength>
+    			<xsd:maxLength value="500"></xsd:maxLength>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:element name="FileName">
+    	<xsd:simpleType>
+    		<xsd:restriction base="xsd:string">
+    			<xsd:maxLength value="32"></xsd:maxLength>
+    			<xsd:minLength value="28"></xsd:minLength>
+    		</xsd:restriction>
+    	</xsd:simpleType>
+    </xsd:element>
+
+    <xsd:complexType name="Fault_User_Dtls">
+    	<xsd:sequence>
+    		<xsd:element ref="this:LoginDetails"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+</xsd:schema>

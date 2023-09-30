@@ -1,0 +1,73 @@
+
+
+CREATE COMPUTE MODULE SF_Exception_Handling
+	CREATE FUNCTION Main() RETURNS BOOLEAN
+	BEGIN
+		DECLARE iChildLevel INTEGER 1;
+		DECLARE ptrException reference to InputExceptionList.*[1];
+		DECLARE ErrorCode,ErrorText,ExceptionType,ErrorLine CHARACTER;
+		DECLARE Insert_Count INTEGER;
+		
+		-- keep looping while the moves to the child of exception list work 
+		WHILE LASTMOVE(ptrException) DO
+			-- store the current values for the error number and text
+			IF ptrException.Number is not null THEN
+        		SET ErrorCode = CAST(ptrException.Number AS CHARACTER);
+        		SET ErrorText = COALESCE(ErrorText || ', ' , '')||CAST(ptrException.Text AS CHARACTER);
+        		
+  			END IF;
+  			SET Insert_Count = CARDINALITY(ptrException.Insert[]);
+  			DECLARE iInsert_Count INTEGER 1;
+  			--DECLARE ErrorCausedException reference to InputExceptionList.*.Insert[Insert_Count];
+	  			WHILE (iInsert_Count <= Insert_Count) DO
+	  			--IF (Insert_Count <> 0) THEN
+	  				
+	  			--IF ptrException.Insert.Text IS NOT NULL THEN
+	  				SET ErrorLine = COALESCE(ErrorLine || ', ' , '')||CAST(ptrException.Insert[iInsert_Count].Text AS CHARACTER);
+	  			--END IF;
+	  			SET iInsert_Count = iInsert_Count + 1;
+	  			--END IF;
+	  			END WHILE;
+  			-- now move to the last child which should be the next exceptionlist
+			MOVE ptrException LASTCHILD;
+			SET ExceptionType = FIELDNAME(ptrException);
+		END WHILE; 
+		
+		SET Environment.Variables.ErrorCode = ErrorCode;
+		SET Environment.Variables.ErrorText = ErrorText;
+		SET Environment.Variables.ErrorLine = ErrorLine;
+		--Setting error to output tree
+		IF EXISTS(Environment.Variables.ErrorCode[]) OR EXISTS(Environment.Variables.ErrorText[]) THEN
+			IF CONTAINS(ErrorLine,'THROW EXCEPTION CATALOG') THEN
+				SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code"=400;
+				SET OutputRoot.XMLNSC.Errors.Error.ErrorCode = Environment.Variables.ErrorCode;
+				SET OutputRoot.XMLNSC.Errors.Error.ErrorText = SUBSTRING(ErrorLine AFTER ');, ');
+			ELSE
+				SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code"=400;
+				SET OutputRoot.XMLNSC.Errors.Error.ErrorCode = Environment.Variables.ErrorCode;
+				SET OutputRoot.XMLNSC.Errors.Error.ErrorText = Environment.Variables.ErrorText||','||Environment.Variables.ErrorLine;
+			END IF;
+			Propagate to terminal 'out';
+		ELSE
+			SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code"=503;
+			SET OutputRoot.XMLNSC.Errors.Error.ErrorCode = 90;
+			SET OutputRoot.XMLNSC.Errors.Error.ErrorText = 'Sorry for trouble,Node Down/TimedOut Please try after Some time';
+		Propagate to terminal 'out';
+		END IF;
+		IF (ErrorLine<>'') THEN
+		SET OutputRoot.HTTPReplyHeader."X-Original-HTTP-Status-Code"=400;
+		SET OutputRoot.HTTPReplyHeader."Application-Name"=ApplicationLabel;
+		SET OutputRoot.HTTPReplyHeader."Node-Name"=BrokerName;
+		SET OutputRoot.HTTPReplyHeader."MessageFlow-Name"=MessageFlowLabel;
+		SET OutputRoot.XMLNSC.Errors.Error.ErrorCode = Environment.Variables.ErrorCode;
+		IF CONTAINS(ErrorLine,'THROW EXCEPTION CATALOG') THEN
+			SET OutputRoot.XMLNSC.Errors.Error.ErrorText = SUBSTRING(ErrorLine AFTER ');, ');
+		ELSE
+		SET OutputRoot.XMLNSC.Errors.Error.ErrorText = ErrorLine;
+		END IF;
+		END IF;
+		Propagate to terminal 'out1';
+		RETURN FALSE;
+	END;
+
+END MODULE;
