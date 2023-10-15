@@ -4,7 +4,7 @@
 ::exit /B
 
 ::LOG
-set FILE_PATH=C:\Users\Admin\AppData\Local\Jenkins\.jenkins\workspace\IIB-TEST\Build\build.properties
+set FILE_PATH=C:\ProgramData\Jenkins\.jenkins\workspace\IIB-Integrations\Build\build.properties
 
 for /f "usebackq tokens=1,2 delims==" %%A in ("%FILE_PATH%") do (
     if "%%A"=="application_name" (
@@ -40,8 +40,8 @@ powershell Compress-Archive -Path %REPLACED_DIR%\Bars\TempBar\* -DestinationPath
 copy %REPLACED_DIR%\Bars\TempBar\BAR_%APPLICATION_NAME%.zip %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar
 rmdir /s /q %REPLACED_DIR%\Bars\TempBar
 del %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.zip
-copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\SIT
-copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\UAT
-copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PERF
-copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PROD
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\SIT\BAR_%APPLICATION_NAME%.bar
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\UAT\BAR_%APPLICATION_NAME%.bar
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PERF\BAR_%APPLICATION_NAME%.bar
+copy %REPLACED_DIR%\Bars\DEV\BAR_%APPLICATION_NAME%.bar %REPLACED_DIR%\Bars\PROD\BAR_%APPLICATION_NAME%.bar
 echo Version update for BAR_%APPLICATION_NAME%.bar is successful
