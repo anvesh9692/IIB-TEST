@@ -4,7 +4,7 @@
 ::exit /B
 
 ::LOG
-set FILE_PATH=C:\Users\Admin\AppData\Local\Jenkins\.jenkins\workspace\IIB-TEST\Build\build.properties
+set FILE_PATH=C:\ProgramData\Jenkins\.jenkins\workspace\IIB-Integrations\Build\build.properties
 
 for /f "usebackq tokens=1,2 delims==" %%A in ("%FILE_PATH%") do (
     if "%%A"=="application_name" (
