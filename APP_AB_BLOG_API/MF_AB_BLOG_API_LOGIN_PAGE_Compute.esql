@@ -1,9 +1,9 @@
-DECLARE File_Name_Prefix EXTERNAL CHARACTER;
-DECLARE Original_File_Name EXTERNAL CHARACTER;
-DECLARE File_Path EXTERNAL CHARACTER;
 Declare User_Details SHARED ROW;
-DECLARE File_Name SHARED CHARACTER Original_File_Name;
-DECLARE Actual_File_Name SHARED CHARACTER;
+DECLARE File_Name_Prefix EXTERNAL CHARACTER;
+DECLARE File_Name EXTERNAL CHARACTER;
+DECLARE File_Path EXTERNAL CHARACTER;
+DECLARE Original_File_Name EXTERNAL CHARACTER;
+
 CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE
 	CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
@@ -20,13 +20,13 @@ CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE
 			
 		
 		IF (Environment.LoginDetails.USERNAME = InRef.Username) and (Environment.LoginDetails.PASSWORD = InRef.Password) THEN
-			SET Actual_File_Name = File_Name;
+			
 			DECLARE SeqNo CHARACTER;
 			SET SeqNo = CAST(CURRENT_TIMESTAMP AS CHARACTER FORMAT 'yyMMddHHmmsss');
-			SET File_Name = File_Name_Prefix||SeqNo||'.html';
+			SET Environment.File_Name = File_Name_Prefix||SeqNo||'.html';
 			
 			SET OutputLocalEnvironment.Destination.File.Directory = File_Path;
-			SET OutputLocalEnvironment.Destination.File.Name = Actual_File_Name;
+			SET OutputLocalEnvironment.Destination.File.Name = Original_File_Name;
 			PROPAGATE TO TERMINAL 'out';
 			RETURN FALSE;
 		ELSE 
@@ -43,7 +43,7 @@ CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
 		SET OutputRoot = InputRoot;
 		SET OutputLocalEnvironment.Destination.File.Directory = File_Path;
-		SET OutputLocalEnvironment.Destination.File.Name = File_Name;
+		SET OutputLocalEnvironment.Destination.File.Name = Environment.File_Name;
 		
 	END;	
 END MODULE;
@@ -53,7 +53,7 @@ CREATE FUNCTION Main() RETURNS BOOLEAN
 	BEGIN
 		SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
 		SET OutputRoot.XMLNSC.Resp_User_Dtls.LoginDetails = 'Valid';
-		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = File_Name;
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = Environment.File_Name;
 	END;	
 END MODULE;
 
@@ -79,7 +79,7 @@ CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE_DEFAULT_RESPONSE
 	BEGIN
 		SET OutputRoot.HTTPResponseHeader."Access-Control-Allow-Origin" = '*';
 		SET OutputRoot.XMLNSC.Resp_User_Dtls.LoginDetails = 'Valid';
-		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = 'Anvesh_Bollimpalli_WebPage.html';
+		SET OutputRoot.XMLNSC.Resp_User_Dtls.FileName = Original_File_Name;
 		RETURN TRUE;
 	END;
 END MODULE;

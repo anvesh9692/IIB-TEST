@@ -3,13 +3,16 @@
     xmlns:utility="http://www.ibm.com/wbi/2005/eflow_utility" nsURI="MF_AB_BLOG_API_LOGIN_PAGE.msgflow" nsPrefix="MF_AB_BLOG_API_LOGIN_PAGE.msgflow">
   <eClassifiers xmi:type="eflow:FCMComposite" name="FCMComposite_1" nodeLayoutStyle="RECTANGLE">
     <eSuperTypes href="http://www.ibm.com/wbi/2005/eflow#//FCMBlock"/>
-    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.File_Name_Prefix" name="File_Name_Prefix" defaultValueLiteral="AB_WebPage">
-      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eStructuralFeatures>
-    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.Original_File_Name" name="Original_File_Name" defaultValueLiteral="AB_WebPage2308201813001.html">
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.File_Name" name="File_Name" defaultValueLiteral="AB_WebPage*">
       <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eStructuralFeatures>
     <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.File_Path" name="File_Path" defaultValueLiteral="C:\Users\anves\Downloads\apache-tomcat-9.0.78-windows-x64\apache-tomcat-9.0.78\webapps\myWebPage">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.File_Name_Prefix" name="File_Name_Prefix" defaultValueLiteral="AB_WebPage">
+      <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eStructuralFeatures>
+    <eStructuralFeatures xmi:type="ecore:EAttribute" xmi:id="Property.Original_File_Name" name="Original_File_Name" defaultValueLiteral="Anvesh_Bollimpalli_WebPage.html">
       <eType xmi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eStructuralFeatures>
     <translation xmi:type="utility:TranslatableString" key="MF_AB_BLOG_API_LOGIN_PAGE" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
@@ -93,12 +96,15 @@
       <connections xmi:type="eflow:FCMConnection" xmi:id="FCMConnection_28" targetNode="FCMComposite_1_5" sourceNode="FCMComposite_1_16" sourceTerminalName="OutTerminal.out" targetTerminalName="InTerminal.in"/>
     </composition>
     <propertyOrganizer>
-      <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.File_Name_Prefix">
-        <propertyName xmi:type="utility:TranslatableString" key="Property.File_Name_Prefix" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
-        <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.Original_File_Name">
-          <propertyName xmi:type="utility:TranslatableString" key="Property.Original_File_Name" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
-          <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.File_Path">
-            <propertyName xmi:type="utility:TranslatableString" key="Property.File_Path" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
+      <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.File_Name">
+        <propertyName xmi:type="utility:TranslatableString" key="Property.File_Name" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
+        <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.File_Path">
+          <propertyName xmi:type="utility:TranslatableString" key="Property.File_Path" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
+          <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.File_Name_Prefix">
+            <propertyName xmi:type="utility:TranslatableString" key="Property.File_Name_Prefix" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
+            <propertyDescriptor groupName="Group.File" configurable="true" userDefined="true" describedAttribute="Property.Original_File_Name">
+              <propertyName xmi:type="utility:TranslatableString" key="Property.Original_File_Name" bundleName="MF_AB_BLOG_API_LOGIN_PAGE" pluginId="APP_AB_BLOG_API"/>
+            </propertyDescriptor>
           </propertyDescriptor>
         </propertyDescriptor>
       </propertyDescriptor>
