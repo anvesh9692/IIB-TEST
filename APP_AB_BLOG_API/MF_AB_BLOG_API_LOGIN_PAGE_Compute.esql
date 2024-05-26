@@ -26,7 +26,7 @@ CREATE COMPUTE MODULE MF_AB_BLOG_API_LOGIN_PAGE
 			SET Environment.File_Name = File_Name_Prefix||SeqNo||'.html';
 			
 			SET OutputLocalEnvironment.Destination.File.Directory = File_Path;
-			SET OutputLocalEnvironment.Destination.File.Name = Original_File_Name;
+			SET OutputLocalEnvironment.Destination.File.Name = File_Name;
 			PROPAGATE TO TERMINAL 'out';
 			RETURN FALSE;
 		ELSE 
